@@ -3,3 +3,4 @@ c:\users\user\documents\visual studio 2013\Projects\Frudge\Frudge\bin\Debug\Frud
 c:\users\user\documents\visual studio 2013\Projects\Frudge\Frudge\bin\Debug\Frudge.pdb
 c:\users\user\documents\visual studio 2013\Projects\Frudge\Frudge\obj\Debug\Frudge.exe
 c:\users\user\documents\visual studio 2013\Projects\Frudge\Frudge\obj\Debug\Frudge.pdb
+c:\users\user\documents\visual studio 2013\Projects\Frudge\Frudge\obj\Debug\Frudge.csprojResolveAssemblyReference.cache

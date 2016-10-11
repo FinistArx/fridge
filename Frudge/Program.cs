@@ -11,7 +11,7 @@ namespace Frudge
         static void Main(string[] args)
         {
 
-            Fridge freeze = new Fridge(false, true, -20, 10, 0);
+            Fridge freeze = new Fridge(false, true, 0);
             while (true)
             {
                 Console.Clear();
@@ -21,7 +21,7 @@ namespace Frudge
                 Console.WriteLine("2 - Выключить холодильник");
                 Console.WriteLine("3 - Открыть холодильник");
                 Console.WriteLine("4 - Закрыть холодильник");
-
+                Console.WriteLine("5 - Изменить температуру холодильника");
                 Console.WriteLine("6 - Убавить температуру холодильника на 1");
                 Console.WriteLine("7 - Добавить температуру холодильника на 1");
                 Console.WriteLine("e - Выйти");
@@ -42,11 +42,14 @@ namespace Frudge
                     case '4':
                         freeze.Close();
                         break;
+                    case '5':
+                        freeze.SetTemp();
+                        break;
                     case '6':
-                        freeze.Decrease();
+                        freeze.DecreaseTemp();
                         break;
                     case '7':
-                        freeze.Increase();
+                        freeze.IncreaseTemp();
                         break;
                         
                     case 'e':

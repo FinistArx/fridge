@@ -10,14 +10,12 @@ namespace Frudge
     {
         public bool state;
         public bool stateopenclose;
-        private readonly int min;
-        private readonly int max;
-        private int current;
-        public Fridge(bool state, bool stateopenclose, int min, int max, int current)
+        int temp;
+        public Fridge(bool state, bool stateopenclose, int temp)
         {
             this.state = state;
             this.stateopenclose = stateopenclose;
-            this.current = current;
+            this.temp = temp;
         }
 
 
@@ -44,7 +42,7 @@ namespace Frudge
         }
 
 
-
+        
         public void On()
         {
             state = true;
@@ -55,48 +53,34 @@ namespace Frudge
             state = false;
         }
 
-        public int Min
+
+        int min = -20;
+        int max = 10;
+        public  int SetTemp()
         {
-            get
+            Console.WriteLine("Введите температуру");
+            string t = Console.ReadLine();
+            int value = Convert.ToInt32(t);
+            if (value <= max && value >= min)
             {
-                return min;
+                 temp = value;
             }
+            return temp;
         }
 
-        public int Max
+        public int DecreaseTemp()
         {
-            get
-            {
-                return max;
-            }
+            if ( temp < max && temp > min)
+            { temp--; }
+            return temp; 
         }
 
-        public int Current
+        public int IncreaseTemp()
         {
-            get
-            {
-                return current;
-            }
-            set
-            {
-                 
-                if (value <= max && value >= min)
-                {
-                    current = value;
-                }
-            }
+            if (temp < max)
+            { temp++; }
+            return temp;
         }
-
-        public void Increase()
-        {
-            Current++;
-        }
-
-        public void Decrease()
-        {
-            Current--;
-        }
-
 
         public override string ToString()
         {
@@ -121,8 +105,10 @@ namespace Frudge
                 stateopenclose = "закрыта";
             }
 
-            return "  Cостояние холодильника: " + state + ", температура:  " + Current + ", дверь " + stateopenclose;
+            return "  Cостояние холодильника: " + state + ", температура:  " + temp + ", дверь " + stateopenclose;
         }
-    }
+
     
 }
+}
+

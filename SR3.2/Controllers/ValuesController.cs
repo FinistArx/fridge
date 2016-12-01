@@ -1,66 +1,160 @@
-﻿using SR3._2.Models.Device;
+﻿using SR3._2.Models.Contex;
+using SR3._2.Models.Device;
 using SR3._2.Models.Interfaces;
 using System.Collections.Generic;
-using System.Web;
+using System.Linq;
 using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.SessionState;
+
 
 namespace SR3._2.Controllers
 {
     public class ValuesController : ApiController
     {
-        public IDictionary<int, AbstractDevice> Get()
+        private SmartHomeContex bb = new SmartHomeContex();
+        private TemperatureContex tc = new TemperatureContex();
+        private VolumeContex vc = new VolumeContex();
+        private ChennelContex cc = new ChennelContex();
+        public List<AbstractDevice> GetIndex()
         {
-            IDictionary<int, AbstractDevice> SmartHome;
-            var Session = SessionStateUtility.GetHttpSessionStateFromContext(HttpContext.Current);
+            IList<AbstractDevice> list = new List<AbstractDevice>();
 
-
-            if (Session["Device"] == null)
+            foreach (AbstractDevice item in bb.Devices.ToList())
             {
-                SmartHome = new SortedDictionary<int, AbstractDevice>();
-                SmartHome.Add(1, new TV(false, 100, 50));
-                SmartHome.Add(2, new MC(false, 100, 50));
-                SmartHome.Add(3, new Boiler(false, 15));
-                SmartHome.Add(4, new Conditioner(false, 18));
-                SmartHome.Add(5, new Fridge(false, 0, false));
-                Session["Device"] = SmartHome;
-                Session["NextId"] = 6;
+                list.Add(item);
             }
-            else
-            {
-                SmartHome = (SortedDictionary<int, AbstractDevice>)Session["Device"];
-            }
-
-            SelectListItem[] devicemenu = new SelectListItem[5];
-            devicemenu[0] = new SelectListItem { Text = "Телик", Value = "tvset" };
-            devicemenu[1] = new SelectListItem { Text = "Контробасс", Value = "musik" };
-            devicemenu[2] = new SelectListItem { Text = "Грелко", Value = "boiler" };
-            devicemenu[3] = new SelectListItem { Text = "Студилко", Value = "cond" };
-            devicemenu[4] = new SelectListItem { Text = "Едасхрон", Value = "fridge" };
-
-
-
-            return SmartHome;
+            return bb.Devices.ToList();            
         }
-        public void PutIncrtemp(int id)
-        {
-            var Session = SessionStateUtility.GetHttpSessionStateFromContext(HttpContext.Current);
-            IDictionary<int, AbstractDevice> SmartHome = (SortedDictionary<int, AbstractDevice>)Session["Device"];
-            ((IRegulatorTemp)SmartHome[id]).IncreaseTemp();
 
-        }
-        public void PutDecrtemp(int id)
-        {
-            var Session = SessionStateUtility.GetHttpSessionStateFromContext(HttpContext.Current);
-            IDictionary<int, AbstractDevice> SmartHome = (SortedDictionary<int, AbstractDevice>)Session["Device"];
-            ((IRegulatorTemp)SmartHome[id]).IncreaseTemp();
-        }
+        [Route("api/values/delete")]
         public void Delete(int id)
         {
-            var Session = HttpContext.Current.Session;
-            IDictionary<int, AbstractDevice> SmartHome = (SortedDictionary<int, AbstractDevice>)Session["Device"];
-            SmartHome.Remove(id);
+            AbstractDevice b = bb.Devices.Find(id);
+            if (b != null)
+            {
+                bb.Devices.Remove(b);
+                bb.SaveChanges();
+            }
         }
+
+        [Route("api/values/openclose")]
+        public void PutOpenClose(int id)
+        {
+            Fridge opcl = bb.Fredges.Find(id);
+            if (opcl != null)
+            {
+                opcl.OpCl();
+                bb.SaveChanges();
+            }
+        }
+
+        [Route("api/values/incrtemp")]
+        public void PutIncrtemp (int id)
+        {
+            Temperature newtemp = tc.Tempes.Find(id);
+            if (newtemp != null)
+            {
+                switch (id)
+                {
+                    case 1:
+                        newtemp.IncreaseTemp();
+                        break;
+                    case 2:
+                        newtemp.IncreaseTemp();
+                        break;
+                    default:
+                        newtemp.IncreaseTemp();
+                        break;
+                }
+                bb.SaveChanges();
+            }
+        }
+
+        [Route("api/values/decrtemp")]
+        public void PutDecrtemp(int id)
+        {
+            Temperature newtemp = tc.Tempes.Find(id);
+            if (newtemp != null)
+            {
+                switch (id)
+                {
+                    case 1:
+                        newtemp.DecreaseTemp();
+                        break;
+                    case 2:
+                        newtemp.DecreaseTemp();
+                        break;
+                    default:
+                        newtemp.DecreaseTemp();
+                        break;
+                }
+                bb.SaveChanges();
+            }
+        }
+
+        [Route("api/values/volincr")]
+        public void PutVolumeIncr(int id)
+        {
+            if (id == 4)
+            {
+                IVolume newvol = bb.MCs.Find(id);
+                newvol.IncreaseVolume();
+            }
+            if (id == 5)
+            {
+                IVolume newvol2 = bb.TVs.Find(id);
+                newvol2.IncreaseVolume();
+            }
+            bb.SaveChanges();
+        }
+
+        //public ActionResult VolumeDecr(int id)
+        //{
+        //    if (id == 4)
+        //    {
+        //        IVolume newvol = bb.MCs.Find(id);
+        //        newvol.DecreaseVolume();
+        //    }
+        //    if (id == 5)
+        //    {
+        //        IVolume newvol2 = bb.TVs.Find(id);
+        //        newvol2.DecreaseVolume();
+        //    }
+        //    bb.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
+
+
+        //public ActionResult NextChenell(int id)
+        //{
+        //    if (id == 4)
+        //    {
+        //        IChangeChennel newvol = bb.MCs.Find(id);
+        //        newvol.NextChennel();
+        //    }
+        //    if (id == 5)
+        //    {
+        //        IChangeChennel newvol2 = bb.TVs.Find(id);
+        //        newvol2.NextChennel();
+        //    }
+        //    bb.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
+        //public ActionResult PrevChenell(int id)
+        //{
+        //    if (id == 4)
+        //    {
+        //        IChangeChennel newvol = bb.MCs.Find(id);
+        //        newvol.PreviusChennel();
+        //    }
+        //    if (id == 5)
+        //    {
+        //        IChangeChennel newvol2 = bb.TVs.Find(id);
+        //        newvol2.PreviusChennel();
+        //    }
+        //    bb.SaveChanges();
+        //    return "Index";
+        //}
     }
 }

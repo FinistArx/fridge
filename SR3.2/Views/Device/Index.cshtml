@@ -1,9 +1,6 @@
 ﻿@using SR3._2.Models.Device
 @using SR3._2.Models.Interfaces
 @model  IList<AbstractDevice>
-@{
-    Layout = null;
-}
 
 <!DOCTYPE html>
 
@@ -22,11 +19,11 @@
 </head>
 <body>
     <div>
-        @using (Html.BeginForm("Add", "Device"))
+        @*@using (Html.BeginForm("Add", "Device"))
         {
-            @Html.DropDownList("deviceType", (IEnumerable<SelectListItem>)ViewBag.applist)
+            @Html.DropDownList("deviceType", (IEnumerable<SelectListItem>))
             <input type="submit" value="Добавить">
-        }
+        }*@
 
         @foreach (var item in Model)
         {
@@ -42,7 +39,7 @@
                     {
                         <div>
                             Громкость крика: @(((IVolume)item).Volume)
-                            <a href="/Device/VolumeIncr/@item.Id" id="incrvol">Добавить крика</a>
+                            <a href="" id="incrvol">Добавить крика</a>
                             <a href="/Device/VolumeDecr/@item.Id" id="decrtv">Убавить крика</a>
                             <div id="result"></div>
                         </div>
@@ -54,9 +51,9 @@
                     {
                         <div>
                             Температура: @(((IRegulatorTemp)item).Temp)
-                            <a href="/Device/TempIncrease/@item.Id" id="incrtemp">Испепелить</a>
-                            <div id="result4"></div>
-                            <a href="/Device/TempDecrease/@item.Id" id="decrtemp">Отморозить</a>
+                            <a href="" id="incrtemp">Испепелить</a>
+                            <div  id="result4"></div>
+                            <a href="" id="decrtemp">Отморозить</a>
                             <div id="result4"></div>
                         </div>
                     }
@@ -68,57 +65,90 @@
                     {
                         <div>
                             Канал ужасти: @(((IChangeChennel)item).Chennel)
-                            <a href="/Device/NextChenell/@item.Id">Следующий кханурик</a>
-                            <a href="/Device/PrevChenell/@item.Id">Предедущий кханурик</a>
+                            <a href="">Следующий кханурик</a>
+                            <a href="">Предедущий кханурик</a>
                         </div>
                     }
                 }
                 @if (item is IOpenClose)
                 {
-                    using (Html.BeginForm("OpenClose" + item.Id, "Device"))
+                    using (Html.BeginForm("OpenClose" + item.Id, "Values"))
                     {
                         <div>
                             Дверца: @(((IOpenClose)item).OpenClose)
-                            <a href="/Device/OpenClose/@item.Id">Открыть/Закрыть врата</a>
+                            <a href="" id="openclose">Открыть/Закрыть врата</a>
+                            <div id="result5"></div>
                         </div>
                     }
                 }
 
                 @using (Html.BeginForm("Delete" + item.Id, "Device"))
                 {
-                    <a href="/Device/Delete/@item.Id">Изничтожить</a>
+                    <a href="">Изничтожить</a>
+
                 }
             </div>
           
             <script>
-    $(function () {
-        $("#incrtemp").click(function () {
-            $.ajax({
-                url: "/api/values/incrtemp",
-                type: "POST",
+                $(function () {
+                    $("#incrtemp").click(function () {
+                        $.ajax({
+                            url: "/api/values/Incrtemp",
+                            type: "put",
+                            success: function (data) {
+                                $("#result4").html();
+                            }
+                        });
+                    });
+                });
+        $(function () {
+            $("#decrtemp").click(function () {
+                $.ajax({
+                    url: "/api/values/Decrtemp",
+                    type: "PUT",
 
-                success: function (data) {
-                    $("#result").html();
-                }
+                    success: function (data) {
+                        $("#result4").html();
+                    }
+                });
             });
         });
-
-                $("#postObj").click(function () {
-                    var p = {
-                        Name: $("#name").val(),
-                        Age: $("#age").val()
-                    };
+            $(function () {
+                $("#openclose").click(function () {
                     $.ajax({
-                        url: "/api/values",
-                        type: "POST",
-                        data: JSON.stringify(p),
-                        contentType: "application/json;charset=utf-8",
+                        url: "/api/values/OpenClose",
+                        type: "PUT",
+
                         success: function (data) {
-                            $("#result").html(data);
+                            $("#result5").html();
                         }
                     });
-           });
-                        });
+                });
+            });
+            $(function () {
+                $("#volincr").click(function () {
+                    $.ajax({
+                        url: "/api/values/VolumeIncr",
+                        type: "PUT",
+
+                        success: function (data) {
+                            $("#result5").html();
+                        }
+                    });
+                });
+            });
+            $(function () {
+                $("#delete").click(function () {
+                    $.ajax({
+                        url: "/api/values/Delete",
+                        type: "DELETE",
+
+                        success: function (data) {
+                            $("#").html();
+                        }
+                    });
+                });
+            });
                 </script>
         }
 </body>

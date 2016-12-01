@@ -1,7 +1,7 @@
 ﻿using SR3._2.Models.Device;
 using System.Data.Entity;
 
-namespace SamRab3_2.Models.Contex
+namespace SR3._2.Models.Contex
 {
     public class SmartHomeContex : DbContext
     {

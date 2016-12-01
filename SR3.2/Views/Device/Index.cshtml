@@ -1,6 +1,6 @@
 ﻿@using SR3._2.Models.Device
 @using SR3._2.Models.Interfaces
-@model  IList<AbstractDevice>
+@model  IEnumerable<AbstractDevice>
 
 <!DOCTYPE html>
 
@@ -130,6 +130,18 @@
                     $.ajax({
                         url: "/api/values/VolumeIncr",
                         type: "PUT",
+                        data : "2",
+                        success: function (data) {
+                            $("#result5").html();
+                        }
+                    });
+                });
+            });
+            $(function () {
+                $("#voldecr").click(function () {
+                    $.ajax({
+                        url: "/api/values/VolumeDecr",
+                        type: "Edit",
 
                         success: function (data) {
                             $("#result5").html();

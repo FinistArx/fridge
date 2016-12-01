@@ -14,7 +14,7 @@ namespace SR3._2.Controllers
         private TemperatureContex tc = new TemperatureContex();
         private VolumeContex vc = new VolumeContex();
         private ChennelContex cc = new ChennelContex();
-        public List<AbstractDevice> GetIndex()
+        public IEnumerable<AbstractDevice> GetIndex()
         {
             IList<AbstractDevice> list = new List<AbstractDevice>();
 
@@ -22,10 +22,11 @@ namespace SR3._2.Controllers
             {
                 list.Add(item);
             }
-            return bb.Devices.ToList();            
+            return bb.Devices;      
+         
         }
-
-        [Route("api/values/delete")]
+    
+       
         public void Delete(int id)
         {
             AbstractDevice b = bb.Devices.Find(id);
@@ -36,7 +37,7 @@ namespace SR3._2.Controllers
             }
         }
 
-        [Route("api/values/openclose")]
+        [HttpPut]
         public void PutOpenClose(int id)
         {
             Fridge opcl = bb.Fredges.Find(id);
@@ -47,7 +48,7 @@ namespace SR3._2.Controllers
             }
         }
 
-        [Route("api/values/incrtemp")]
+        [HttpPut]
         public void PutIncrtemp (int id)
         {
             Temperature newtemp = tc.Tempes.Find(id);
@@ -69,7 +70,7 @@ namespace SR3._2.Controllers
             }
         }
 
-        [Route("api/values/decrtemp")]
+        [HttpPut]
         public void PutDecrtemp(int id)
         {
             Temperature newtemp = tc.Tempes.Find(id);
@@ -91,7 +92,7 @@ namespace SR3._2.Controllers
             }
         }
 
-        [Route("api/values/volincr")]
+        [HttpPut]
         public void PutVolumeIncr(int id)
         {
             if (id == 4)
@@ -107,21 +108,20 @@ namespace SR3._2.Controllers
             bb.SaveChanges();
         }
 
-        //public ActionResult VolumeDecr(int id)
-        //{
-        //    if (id == 4)
-        //    {
-        //        IVolume newvol = bb.MCs.Find(id);
-        //        newvol.DecreaseVolume();
-        //    }
-        //    if (id == 5)
-        //    {
-        //        IVolume newvol2 = bb.TVs.Find(id);
-        //        newvol2.DecreaseVolume();
-        //    }
-        //    bb.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        public void EditVolumeDecr(int id)
+        {
+            if (id == 4)
+            {
+                IVolume newvol = bb.MCs.Find(id);
+                newvol.DecreaseVolume();
+            }
+            if (id == 5)
+            {
+                IVolume newvol2 = bb.TVs.Find(id);
+                newvol2.DecreaseVolume();
+            }
+            bb.SaveChanges();
+        }
 
 
 

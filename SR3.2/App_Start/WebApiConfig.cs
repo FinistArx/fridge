@@ -17,8 +17,9 @@ namespace SR3._2
                 routeTemplate: "api/{controller}/{id}",
 
                 defaults: new { id = UrlParameter.Optional }
-            );
 
+            );
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
         }
     }
 }

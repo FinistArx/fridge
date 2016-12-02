@@ -1,6 +1,9 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace SR3._2.Models.Device
 {
+    [DataContract]
     public abstract class AbstractDevice
     {
         public int Id { get; set; }
@@ -10,6 +13,8 @@ namespace SR3._2.Models.Device
         {
             state = !state;
         }
+        [DataMember]
+
         public bool State
         {
             get

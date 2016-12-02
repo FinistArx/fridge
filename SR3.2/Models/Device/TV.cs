@@ -1,7 +1,10 @@
 ﻿using SR3._2.Models.Interfaces;
+using System.Runtime.Serialization;
 
 namespace SR3._2.Models.Device
 {
+    [DataContract]
+
     public class TV : AbstractDevice, IVolume, IChangeChennel
     {
         public int chennel;
@@ -12,12 +15,14 @@ namespace SR3._2.Models.Device
             this.volume = volume;
             this.chennel = chennel;
         }
+        [DataMember]
 
         public int Chennel
         {
             get { return chennel; }
             set { chennel = value; }
         }
+        [DataMember]
 
         public int Volume
         {

@@ -37,7 +37,7 @@ namespace SR3._2.Controllers
             }
         }
 
-        [HttpPut]
+        [Route("api/values/put/openclose")]
         public void PutOpenClose(int id)
         {
             Fridge opcl = bb.Fredges.Find(id);
@@ -48,7 +48,7 @@ namespace SR3._2.Controllers
             }
         }
 
-        [HttpPut]
+        [Route("api/values/Incrtemp")]
         public void PutIncrtemp (int id)
         {
             Temperature newtemp = tc.Tempes.Find(id);
@@ -70,7 +70,7 @@ namespace SR3._2.Controllers
             }
         }
 
-        [HttpPut]
+        [Route("api/values/Decrtemp")]
         public void PutDecrtemp(int id)
         {
             Temperature newtemp = tc.Tempes.Find(id);
@@ -92,7 +92,7 @@ namespace SR3._2.Controllers
             }
         }
 
-        [HttpPut]
+        [Route("api/values/volincr")]
         public void PutVolumeIncr(int id)
         {
             if (id == 4)
@@ -108,6 +108,7 @@ namespace SR3._2.Controllers
             bb.SaveChanges();
         }
 
+        [Route("api/values/voldecr")]
         public void EditVolumeDecr(int id)
         {
             if (id == 4)
